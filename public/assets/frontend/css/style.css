@@ -1,0 +1,618 @@
+* {
+  margin: 0;
+  padding: 0;
+  /* box-sizing: border-box;
+  border: 1px solid red; */
+}
+
+
+
+
+
+/* General Styling */
+.nabBar .companyLogo {
+    font-size: 30px;
+    color: #4CAF50;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* 0.5 is 50% opacity */
+    padding: 17px;
+    padding-right: 33px;
+    padding-left: -1px;
+    margin-left: -32px;
+    margin-top: -12px;
+    margin-bottom: -10px;
+    margin-right: -1px;
+}
+
+.navbar {
+    padding: 10px 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #f8f9fa;
+    font-size: 20px;
+    margin-right: 15px;
+    transition: color 0.3s ease;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #4CAF50; /* Matches the logo color */
+    text-decoration: underline;
+    /* background-color: #87f509; */
+    text-decoration: none;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    /* border: 1px solid white; */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* 0.5 is 50% opacity */
+    padding: 17px;
+    padding-right: 33px;
+    padding-left: -1px;
+    margin-right: -31px;
+    margin-top: -12px;
+    margin-bottom: -10px;
+    margin-right: -2px;
+}
+.navbar-nav {
+    display: flex;
+    gap: 15px; /* Optional: Adjust spacing between items */
+}
+
+
+/* Dropdown Menu */
+.navbar-dark .navbar-nav .dropdown-menu {
+    background-color: #343a40;
+    border-radius: 5px;
+    padding: 10px;
+    transition: opacity 0.3s ease;
+    opacity: 0; /* Initial state for animation */
+    transform: translateY(10px); /* Initial state for slide effect */
+    display: none;
+}
+
+.navbar-dark .navbar-nav .dropdown-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.navbar-dark .dropdown-item {
+    color: #f8f9fa;
+    font-size: 16px;
+    padding: 8px 12px;
+}
+
+.navbar-dark .dropdown-item:hover {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+/* Button Styling */
+.btn-green {
+    background-color: hsl(240, 33%, 95%);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-green:hover {
+    background-color: #87f509;
+}
+.TalkNow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 2550, 0.1);
+    padding-bottom: 9px;
+    padding-top: 10px;
+    padding-right: 24px;
+    margin-top: -10px;
+    margin-bottom: -13px;
+    margin-right: -29px;
+}
+
+.TalkNow .btn {
+   
+    padding: 14px;
+    /* padding-right: 33px; */
+    /* padding-left: 70px; */
+    margin-right: -9px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 24px;
+
+    text-align: center; /* Center text horizontally */
+    /* padding: 8px 16px; Adjust padding as desired for button size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    width: 100px;
+}
+
+
+
+
+.second-section{
+    color: rgb(248, 242, 242);
+    height: 100vh;
+    padding-top: 80px;
+}
+.side-text{
+    position: relative;
+    top:179px;
+    color: white;
+}
+
+
+.second-section .side-text:hover{
+    color: #a0f508;
+
+}
+.second-section .banner__content {
+    padding: 140px 0 180px;
+}
+
+.second-section .banner__content .bn__currently {
+    font-size: 24px;
+    margin-bottom: 50px;
+    border-bottom: 1px solid var(--white);
+    color: var(--white);
+    display: inline-block;
+    padding-bottom: 16px;
+}
+
+.second-section a {
+    text-decoration: none;
+    text-transform: capitalize;
+    margin: 0;
+    color: var(--title);
+    font-family: "Kanit", sans-serif;
+    transition: all 0.3s;
+}
+.second-section .banner__content a:hover{
+    
+    color: #a0f508;
+   
+}
+ 
+div {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+
+
+
+.third-section{
+    color: white;
+    height: 180vh;
+    padding-top: 80px;
+}
+
+.third-section .btn-custom {
+    background-color: black;
+    color: white;
+    padding-left: 25px;
+    padding-right: 22px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+
+    margin-right: 12px;
+    margin-top: 35px;
+    margin-bottom: 78px;
+  }
+  
+  .third-section .btn-custom.active {
+    background-color: #d8f406;
+    color: black;
+  }
+
+  .myskill__item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.myskill__item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.thumb img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-right: 15px;
+}
+
+.mys {
+    color: #fff;
+}
+
+.mys h1 {
+    color: #00ff88;
+}
+
+
+.fourth-section {
+    background-color: #111; /* Dark background */
+    padding: 50px 20px;
+    color: #fff;
+  }
+  
+  .fourth-section h1 {
+    background-color: #141410; /* Dark background color */
+    font-size: 150px; /* Adjust for readability and responsiveness */
+    text-align: center; /* Center text */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners for a modern look */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    color: #f0f0f0; /* Slightly lighter text color for better contrast */
+    margin-bottom: 30px; /* Space below the heading */
+}
+  .display-heading {
+    font-size: 80px; /* Large heading */
+    text-align: center;
+    color: #fff;
+    margin-bottom: 30px;
+  }
+  
+  .intro-text {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #ccc;
+  }
+  
+  .email-text .email-link {
+    font-size: 20px;
+    color: #fff;
+    text-decoration: underline;
+  }
+  
+  .social__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #25282c;
+    padding: 15px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #fff;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .social__footer:hover {
+    background-color: #32cd32; /* Bright highlight color */
+    transform: translateY(-5px); /* Hover lift effect */
+    color: #000;
+  }
+  
+  .bi-arrow-right {
+    margin-left: 10px;
+    font-size: 16px;
+    transition: transform 0.3s;
+  }
+  
+  .social__footer:hover .bi-arrow-right {
+    transform: translateX(5px); /* Move arrow on hover */
+  }
+
+
+  .footer__section {
+    background-color: #111; /* Dark background for the footer */
+    padding: 20px 0;
+    color: #fff; /* White text color */
+    position: relative;
+  }
+  
+  .footer__bottom {
+    border-top: 1px solid #444; /* Subtle border for separation */
+    padding: 15px 0;
+  }
+  
+  .copyright {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 23px;
+  }
+  
+  .copyright p {
+    margin: 0;
+    color: #ccc; /* Slightly gray text for better readability */
+  }
+  
+  .copyright .base {
+    color: #32cd32; /* Highlighted color for the brand link */
+    text-decoration: none;
+  }
+  
+  .copyright .base:hover {
+    color: #fff; /* Change color on hover */
+    text-decoration: underline;
+  }
+  
+  .terms {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .terms li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .terms li a:hover {
+    color: #32cd32; /* Highlight color on hover */
+  }
+  
+  .toparrow {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background-color: #32cd32;
+    border-radius: 50%;
+    padding: 10px;
+    color: #000;
+    text-decoration: none;
+    font-size: 24px;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .toparrow:hover {
+    background-color: #fff;
+    color: #000; /* Arrow color changes on hover */
+    transform: translateY(-5px); /* Lift effect */
+  }
+  
+  .bi-arrow-up-short {
+    vertical-align: middle;
+  }
+
+
+  .contact__section {
+    background-color: #121212; /* Dark background */
+    padding-top: 200px;
+    padding-bottom: 200px;
+  }
+  
+  .contact__box {
+    background-color: #1a1a1a; /* Slightly lighter background */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .replay__box h3 {
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  
+  .replay__box input,
+  .replay__box textarea {
+    width: 100%;
+    background-color: #2b2b2b; /* Input background */
+    color: #ffffff; /* Text color */
+    border: 1px solid #444; /* Border color */
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  
+  .replay__box input::placeholder,
+  .replay__box textarea::placeholder {
+    color: #777; /* Placeholder color */
+  }
+  
+  .replay__box input:focus,
+  .replay__box textarea:focus {
+    outline: none;
+    border-color: #32cd32; /* Focus border color */
+  }
+  
+  .cmn--btn {
+    background-color: #32cd32; /* Button background */
+    color: #000; /* Text color */
+    border-radius: 5px;
+    padding: 10px 20px;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.3s;
+  }
+  
+  .cmn--btn:hover {
+    background-color: #28a428; /* Hover color */
+  }
+  
+  .contact__rightside {
+    background-color: #1a1a1a; /* Card background */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .contact__rightside h4 {
+    color: #ffffff;
+    margin-bottom: 30px;
+  }
+  
+  .contact__item {
+    margin-bottom: 20px;
+    color: #ccc; /* Text color */
+  }
+  
+  .contact__item span.he1 {
+    display: block;
+    font-size: 12px;
+    color: #888; /* Label color */
+  }
+  
+  .contact__item a {
+    color: #32cd32; /* Link color */
+    text-decoration: none;
+  }
+  
+  .contact__item a:hover {
+    text-decoration: underline;
+  }
+  
+  .contact__item span.address {
+    color: #ccc; /* Address text color */
+  }
+
+
+
+
+  .works {
+    background-color: #333; /* Adjust based on your design */
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.heading {
+    color: #fff;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
+
+.heading span {
+    color: #31d35c; /* Highlight color */
+}
+
+
+
+/* bbbbb */
+/* Styling for the Section */
+.courses {
+    text-align: center;
+    /* padding: 30px;  */
+    padding-left: 30px;
+    padding-right:30px ;
+    padding-top: 30px;
+    padding-bottom:200px  ;
+    
+    background-color: #333; /* Dark background */
+    color: #fff;
+    height: 713px;
+}
+
+.courses .heading {
+    font-size: 2em;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.courses .heading span {
+    color: #00ff88; /* Accent color for "Works" */
+}
+
+.swiper-container {
+    padding: 20px;
+}
+
+.swiper-slide {
+    background: #444;
+    padding: 10px; /* Reduced padding */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    height: 250px; /* Set the height to your preference */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.swiper-slide h3 {
+    color: #00ff88;
+    font-size: 1.5em;
+    margin-top: 15px;
+}
+
+.swiper-slide p {
+    color: #aaa;
+    font-size: 1em;
+    margin-top: 10px;
+}
+
+/* Image styling */
+.swiper-slide img {
+    width: 416px;
+    height: 257px;
+    margin-bottom: 10px; /* Space between image and text */
+}
+
+/* Pagination dots styling */
+.swiper-pagination-bullet {
+    background: #00ff88;
+}
+
+
+
+/* Mobile Devices (Smartphones) */
+@media (max-width: 768px) {
+  .navbar-dark .navbar-nav .nav-link {
+      font-size: 16px;
+      margin-right: 10px;
+  }
+  
+  .companyLogo {
+      font-size: 24px;
+  }
+
+  .btn-green, .TalkNow .btn {
+      font-size: 14px;
+      padding: 6px 12px;
+      display: none;
+  }
+
+  .menu {
+      padding: 10px;
+  }
+  .second-section {
+    color: rgb(248, 242, 242);
+    height: 100vh;
+    padding-top: 80px;
+    width: 603px;
+}
+  
+}
+
+
+/* Laptops */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .navbar-dark .navbar-nav .nav-link {
+      font-size: 18px;
+      margin-right: 15px;
+  }
+
+  .companyLogo {
+      font-size: 28px;
+  }
+
+  .btn-green, .TalkNow .btn {
+      font-size: 16px;
+      padding: 8px 14px;
+  }
+
+  .menu {
+      padding: 15px;
+  }
+}

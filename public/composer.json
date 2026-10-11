@@ -1,0 +1,5 @@
+{
+    "require": {
+        "yoeunes/toastr": "^3.1"
+    }
+}
