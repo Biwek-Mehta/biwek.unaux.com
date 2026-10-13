@@ -9,8 +9,9 @@
                     <h3 class="mb-0">Edit Document</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('document.update', ['id' => $document->id]) }}" method="POST" enctype="multipart/form-data">
+                    <form id="documentForm" action="{{ route('document.update', ['id' => $document->id]) }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="_method" value="PUT">
                         <div class="form-group mb-3">
                             <label for="program_id">Program</label>
                             <select class="form-control @error('program_id') is-invalid @enderror" id="program_id" name="program_id" required>
@@ -74,14 +75,45 @@
                             @enderror
                         </div>
                         <div class="form-group mb-3">
-                            <label for="file">File (Leave empty to keep current file)</label>
-                            <input type="file" class="form-control @error('file') is-invalid @enderror" id="file" name="file">
-                            @if($document->file_name)
-                                <small class="text-muted">Current file: {{ $document->file_name }}</small>
-                            @endif
-                            @error('file')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <label>File (Leave empty to keep current file - PDF, DOC, DOCX, JPG, JPEG, PNG, XLS, XLSX, ZIP, RAR - Max 50MB)</label>
+                            <div class="btn-group mb-2" role="group">
+                                <button type="button" class="btn btn-info" onclick="showFileUpload()">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </button>
+                                <button type="button" class="btn btn-success" onclick="startCamera()">
+                                    <i class="fas fa-camera"></i> Scan/Capture
+                                </button>
+                            </div>
+
+                            <div id="fileUploadSection" class="mt-2">
+                                <input type="file" id="upload_file" name="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx,.zip,.rar,image/*">
+                                @if($document->file_name)
+                                    <small class="text-muted">Current file: {{ $document->file_name }}</small>
+                                @endif
+                                @error('file')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div id="cameraSection" class="mt-2" style="display: none;">
+                                <video id="video" autoplay style="width: 100%; max-height: 400px; border: 1px solid #ddd; border-radius: 5px;"></video>
+                                <canvas id="canvas" style="display: none;"></canvas>
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-primary" onclick="captureImage()">
+                                        <i class="fas fa-camera"></i> Capture
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" onclick="stopCamera()">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                                <div id="capturedImagePreview" class="mt-2" style="display: none;">
+                                    <img id="capturedImage" style="max-width: 100%; max-height: 300px; border: 1px solid #ddd; border-radius: 5px;">
+                                    <br>
+                                    <button type="button" class="btn btn-warning btn-sm mt-2" onclick="retakePhoto()">
+                                        <i class="fas fa-redo"></i> Retake
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group mb-3">
                             <label for="status">Status</label>
@@ -103,11 +135,75 @@
 
 @push('script')
 <script>
+let videoStream = null;
+let capturedImageData = null;
+
+function showFileUpload() {
+    document.getElementById('fileUploadSection').style.display = 'block';
+    document.getElementById('cameraSection').style.display = 'none';
+    stopCamera();
+}
+
+function startCamera() {
+    document.getElementById('fileUploadSection').style.display = 'none';
+    document.getElementById('cameraSection').style.display = 'block';
+    document.getElementById('capturedImagePreview').style.display = 'none';
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(function(stream) {
+            videoStream = stream;
+            document.getElementById('video').srcObject = stream;
+        })
+        .catch(function(err) {
+            alert('Camera access denied or not available. Please check permissions.');
+            console.error('Error accessing camera:', err);
+            showFileUpload();
+        });
+}
+
+function stopCamera() {
+    if (videoStream) {
+        videoStream.getTracks().forEach(track => track.stop());
+        videoStream = null;
+    }
+    document.getElementById('video').srcObject = null;
+}
+
+function captureImage() {
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    capturedImageData = canvas.toDataURL('image/jpeg', 0.9);
+    document.getElementById('capturedImage').src = capturedImageData;
+    document.getElementById('capturedImagePreview').style.display = 'block';
+    document.getElementById('video').style.display = 'none';
+
+    // Convert to file and set to hidden input
+    canvas.toBlob(function(blob) {
+        const file = new File([blob], 'scan_' + Date.now() + '.jpg', { type: 'image/jpeg' });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        document.getElementById('upload_file').files = dataTransfer.files;
+    }, 'image/jpeg', 0.9);
+}
+
+function retakePhoto() {
+    document.getElementById('capturedImagePreview').style.display = 'none';
+    document.getElementById('video').style.display = 'block';
+    capturedImageData = null;
+    document.getElementById('upload_file').value = '';
+}
+
 $(document).ready(function() {
     function loadSubjects() {
         var programId = $('#program_id').val();
         var academicYearId = $('#academic_year_id').val();
-        var semesterId = $('#semester_id').val();
+        var semesterId = $('#semesterId').val();
 
         if (programId && academicYearId && semesterId) {
             $.ajax({
@@ -129,6 +225,12 @@ $(document).ready(function() {
                     if (currentSubjectId) {
                         $('#subject_id').val(currentSubjectId);
                     }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error loading subjects:', error);
+                    console.log('XHR:', xhr);
+                    $('#subject_id').empty();
+                    $('#subject_id').append('<option value="">Select Subject</option>');
                 }
             });
         } else {

@@ -70,6 +70,21 @@
         </div>
       </li>
 
+      <!-- @if (auth()->check() && (auth()->user()->can('view personal data') || auth()->user()->hasRole('admin'))) -->
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#personal-data" aria-expanded="false" aria-controls="personal-data">
+          <i class="icon-user menu-icon"></i>
+          <span class="menu-title">Personal Data</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="personal-data">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"><a class="nav-link {{ request()->is('personal-data-list') ? 'text-danger' : '' }}" href="{{route('personal-data.list')}}">Manage Personal Data</a></li>
+          </ul>
+        </div>
+      </li>
+      <!-- @endif -->
+
       
 
 

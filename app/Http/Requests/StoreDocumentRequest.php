@@ -28,7 +28,7 @@ class StoreDocumentRequest extends FormRequest
             'subject_id' => 'required|exists:subjects,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png,xls,xlsx|max:10240',
+            'file' => 'required|file|max:51200',
             'status' => 'sometimes|boolean',
         ];
     }

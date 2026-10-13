@@ -38,6 +38,15 @@
 <script src="{{asset('skydash/js/Chart.roundedBarCharts.js')}}"></script>
 <!-- End custom js for this page-->
 
+<!-- Disable bs-custom-file-input -->
+<script>
+$(document).ready(function() {
+    if (typeof bsCustomFileInput !== 'undefined') {
+        bsCustomFileInput.destroy();
+    }
+});
+</script>
+
 
 <!-- Before the closing body tag -->
 @stack('script')

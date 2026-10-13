@@ -36,10 +36,12 @@
                            alt="user" 
                            style="height: 116%; width: 100%; object-fit: cover;"> <!-- This makes the image cover the div -->
                   @else
-                      <img src="{{ asset('skydash/images/dashboard/people.svg') }}" 
+                      <img src="{{ asset('laravel/public/profile_picture/' . $admins->profile_picture ?? '') }}" 
                            alt="people" 
                            style="height: 100%; width: 100%; object-fit: cover;">
                   @endif
+                 
+
                   <div class="weather-info">
                       <div class="d-flex">
                           <div>

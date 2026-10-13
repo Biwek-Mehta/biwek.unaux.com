@@ -28,7 +28,7 @@ class UpdateDocumentRequest extends FormRequest
             'subject_id' => 'sometimes|required|exists:subjects,id',
             'title' => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,xls,xlsx|max:10240',
+            'file' => 'nullable|file|max:51200',
             'status' => 'sometimes|boolean',
         ];
     }

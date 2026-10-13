@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\AcademicYearController;
 use App\Http\Controllers\Admin\SemesterController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\DocumentController;
+use App\Http\Controllers\Admin\PersonalDataController;
 use App\Http\Controllers\StudyMaterialController;
 
 
@@ -167,8 +168,23 @@ Route::group(['middleware' => 'AdminMiddleware'], function () {
     Route::get('/document-view/{id}', [DocumentController::class, 'view'])->name('document.view');
     Route::get('/document-download/{id}', [DocumentController::class, 'download'])->name('document.download');
     Route::get('/document-toggle-status/{id}', [DocumentController::class, 'toggleStatus'])->name('document.toggle-status');
-    Route::get('/api/subjects', [DocumentController::class, 'getSubjectsByFilters'])->name('document.get-subjects');
 
+    // Personal Data Management
+    Route::get('/personal-data-list', [PersonalDataController::class, 'index'])->name('personal-data.list');
+    Route::get('/personal-data-create', [PersonalDataController::class, 'create'])->name('personal-data.create');
+    Route::post('/personal-data-store', [PersonalDataController::class, 'store'])->name('personal-data.store');
+    Route::get('/personal-data-edit/{id}', [PersonalDataController::class, 'edit'])->name('personal-data.edit');
+    Route::post('/personal-data-update/{id}', [PersonalDataController::class, 'update'])->name('personal-data.update');
+    Route::delete('/personal-data-delete/{id}', [PersonalDataController::class, 'destroy'])->name('personal-data.destroy');
+    Route::get('/personal-data-toggle-status/{id}', [PersonalDataController::class, 'toggleStatus'])->name('personal-data.toggle-status');
+    Route::get('/personal-data-view/{id}', [PersonalDataController::class, 'view'])->name('personal-data.view');
+    Route::get('/personal-data-download/{id}', [PersonalDataController::class, 'download'])->name('personal-data.download');
+
+});
+
+// API routes (outside AdminMiddleware for AJAX calls)
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/api/subjects', [DocumentController::class, 'getSubjectsByFilters'])->name('document.get-subjects');
 });
 
 // Frontend Study Materials

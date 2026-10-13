@@ -22,8 +22,10 @@ class AdminController extends Controller
 {
     public function dashboard(){
     
-            
-        return view('backend.admin.dashboard');
+       $admins = User::role('admin')->first();
+
+// dd($admins);
+        return view('backend.admin.dashboard',compact('admins'));
     }
 
     public function add_role(Request $request){

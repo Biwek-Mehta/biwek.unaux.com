@@ -10,7 +10,8 @@ class ProfileController extends Controller
 {
     public function edit($id){
         $datas=User::where('id',$id)->get()->first();
-        return view('backend.admin.pages.profile.profile', compact('datas'));
+        $admins = User::role('admin')->first();
+        return view('backend.admin.pages.profile.profile', compact('datas', 'admins'));
     }
 
     

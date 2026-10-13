@@ -29,6 +29,7 @@ class DocumentController extends Controller implements HasMiddleware
 
     public function index(Request $request)
     {
+        
         $query = Document::with(['program', 'academicYear', 'semester', 'subject']);
 
         if ($request->has('search') && $request->search) {
@@ -72,37 +73,83 @@ class DocumentController extends Controller implements HasMiddleware
 
     public function store(StoreDocumentRequest $request)
     {
-        $file = $request->file('file');
-        $fileName = time() . '_' . $file->getClientOriginalName();
-        $fileSize = $file->getSize();
-        $fileType = $file->getClientOriginalExtension();
+        try {
+            $file = $request->file('file');
 
-        $program = Program::findOrFail($request->program_id);
-        $academicYear = AcademicYear::findOrFail($request->academic_year_id);
-        $semester = Semester::findOrFail($request->semester_id);
+            if (!$file) {
+                toastr()->error('No file uploaded. Please select a file.');
+                return redirect()->back()->withInput();
+            }
 
-        $filePath = $file->storeAs(
-            "documents/{$program->name}/{$academicYear->name}/{$semester->name}",
-            $fileName,
-            'public'
-        );
+            // Check for upload errors
+            if ($file->getError() !== UPLOAD_ERR_OK) {
+                $errorMessages = [
+                    UPLOAD_ERR_INI_SIZE => 'File exceeds the maximum upload size on the server. Please configure php.ini: upload_max_filesize=50M and post_max_size=50M',
+                    UPLOAD_ERR_FORM_SIZE => 'File exceeds the maximum upload size specified in the form.',
+                    UPLOAD_ERR_PARTIAL => 'File was only partially uploaded.',
+                    UPLOAD_ERR_NO_FILE => 'No file was uploaded.',
+                    UPLOAD_ERR_NO_TMP_DIR => 'Missing a temporary folder.',
+                    UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk.',
+                    UPLOAD_ERR_EXTENSION => 'A PHP extension stopped the file upload.',
+                ];
+                $errorMessage = $errorMessages[$file->getError()] ?? 'Unknown upload error.';
+                toastr()->error($errorMessage);
+                return redirect()->back()->withInput();
+            }
 
-        Document::create([
-            'program_id' => $request->program_id,
-            'academic_year_id' => $request->academic_year_id,
-            'semester_id' => $request->semester_id,
-            'subject_id' => $request->subject_id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'file_name' => $fileName,
-            'file_path' => $filePath,
-            'file_type' => $fileType,
-            'file_size' => $fileSize,
-            'status' => $request->has('status') ? $request->status : true,
-        ]);
+            if (!$file->isValid()) {
+                toastr()->error('Invalid file upload. Error: ' . $file->getErrorMessage());
+                return redirect()->back()->withInput();
+            }
 
-        toastr()->success('Document uploaded successfully.');
-        return redirect()->route('document.list');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $fileSize = $file->getSize();
+            $fileType = $file->getClientOriginalExtension();
+
+            // Check file size in bytes (50MB = 52428800 bytes)
+            if ($fileSize > 52428800) {
+                toastr()->error('File size exceeds 50MB limit.');
+                return redirect()->back()->withInput();
+            }
+
+            
+            $program = Program::findOrFail($request->program_id);
+            $academicYear = AcademicYear::findOrFail($request->academic_year_id);
+            $semester = Semester::findOrFail($request->semester_id);
+
+            $directory = "documents/{$program->name}/{$academicYear->name}/{$semester->name}";
+
+            $filePath = $file->storeAs(
+                $directory,
+                $fileName,
+                'public'
+            );
+
+            if (!$filePath) {
+                toastr()->error('Failed to store file. Please check storage permissions.');
+                return redirect()->back()->withInput();
+            }
+
+            Document::create([
+                'program_id' => $request->program_id,
+                'academic_year_id' => $request->academic_year_id,
+                'semester_id' => $request->semester_id,
+                'subject_id' => $request->subject_id,
+                'title' => $request->title,
+                'description' => $request->description,
+                'file_name' => $fileName,
+                'file_path' => $filePath,
+                'file_type' => $fileType,
+                'file_size' => $fileSize,
+                'status' => $request->has('status') ? $request->status : true,
+            ]);
+
+            toastr()->success('Document uploaded successfully.');
+            return redirect()->route('document.list');
+        } catch (\Exception $e) {
+            toastr()->error('Error uploading file: ' . $e->getMessage());
+            return redirect()->back()->withInput();
+        }
     }
 
     public function edit($id)
@@ -121,45 +168,50 @@ class DocumentController extends Controller implements HasMiddleware
 
     public function update(UpdateDocumentRequest $request, $id)
     {
-        $document = Document::findOrFail($id);
+        try {
+            $document = Document::findOrFail($id);
 
-        if ($request->hasFile('file')) {
-            Storage::disk('public')->delete($document->file_path);
+            if ($request->hasFile('file')) {
+                Storage::disk('public')->delete($document->file_path);
 
-            $file = $request->file('file');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $fileSize = $file->getSize();
-            $fileType = $file->getClientOriginalExtension();
+                $file = $request->file('file');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $fileSize = $file->getSize();
+                $fileType = $file->getClientOriginalExtension();
 
-            $program = Program::findOrFail($request->program_id);
-            $academicYear = AcademicYear::findOrFail($request->academic_year_id);
-            $semester = Semester::findOrFail($request->semester_id);
+                $program = Program::findOrFail($request->program_id);
+                $academicYear = AcademicYear::findOrFail($request->academic_year_id);
+                $semester = Semester::findOrFail($request->semester_id);
 
-            $filePath = $file->storeAs(
-                "documents/{$program->name}/{$academicYear->name}/{$semester->name}",
-                $fileName,
-                'public'
-            );
+                $filePath = $file->storeAs(
+                    "documents/{$program->name}/{$academicYear->name}/{$semester->name}",
+                    $fileName,
+                    'public'
+                );
 
-            $document->file_name = $fileName;
-            $document->file_path = $filePath;
-            $document->file_type = $fileType;
-            $document->file_size = $fileSize;
+                $document->file_name = $fileName;
+                $document->file_path = $filePath;
+                $document->file_type = $fileType;
+                $document->file_size = $fileSize;
+            }
+
+            $document->program_id = $request->program_id;
+            $document->academic_year_id = $request->academic_year_id;
+            $document->semester_id = $request->semester_id;
+            $document->subject_id = $request->subject_id;
+            $document->title = $request->title;
+            $document->description = $request->description;
+            if ($request->has('status')) {
+                $document->status = $request->status;
+            }
+            $document->save();
+
+            toastr()->success('Document updated successfully.');
+            return redirect()->route('document.list');
+        } catch (\Exception $e) {
+            toastr()->error('Error updating document: ' . $e->getMessage());
+            return redirect()->back()->withInput();
         }
-
-        $document->program_id = $request->program_id;
-        $document->academic_year_id = $request->academic_year_id;
-        $document->semester_id = $request->semester_id;
-        $document->subject_id = $request->subject_id;
-        $document->title = $request->title;
-        $document->description = $request->description;
-        if ($request->has('status')) {
-            $document->status = $request->status;
-        }
-        $document->save();
-
-        toastr()->success('Document updated successfully.');
-        return redirect()->route('document.list');
     }
 
     public function destroy($id)
