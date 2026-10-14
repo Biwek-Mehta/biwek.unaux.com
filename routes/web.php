@@ -163,8 +163,8 @@ Route::group(['middleware' => 'AdminMiddleware'], function () {
     Route::get('/document-create', [DocumentController::class, 'create'])->name('document.create');
     Route::post('/document-store', [DocumentController::class, 'store'])->name('document.store');
     Route::get('/document-edit/{id}', [DocumentController::class, 'edit'])->name('document.edit');
-    Route::post('/document-update/{id}', [DocumentController::class, 'update'])->name('document.update');
-    Route::get('/document-delete/{id}', [DocumentController::class, 'destroy'])->name('document.destroy');
+    Route::put('/document-update/{id}', [DocumentController::class, 'update'])->name('document.update');
+    Route::delete('/document-delete/{id}', [DocumentController::class, 'destroy'])->name('document.destroy');
     Route::get('/document-view/{id}', [DocumentController::class, 'view'])->name('document.view');
     Route::get('/document-download/{id}', [DocumentController::class, 'download'])->name('document.download');
     Route::get('/document-toggle-status/{id}', [DocumentController::class, 'toggleStatus'])->name('document.toggle-status');
@@ -174,7 +174,7 @@ Route::group(['middleware' => 'AdminMiddleware'], function () {
     Route::get('/personal-data-create', [PersonalDataController::class, 'create'])->name('personal-data.create');
     Route::post('/personal-data-store', [PersonalDataController::class, 'store'])->name('personal-data.store');
     Route::get('/personal-data-edit/{id}', [PersonalDataController::class, 'edit'])->name('personal-data.edit');
-    Route::post('/personal-data-update/{id}', [PersonalDataController::class, 'update'])->name('personal-data.update');
+    Route::put('/personal-data-update/{id}', [PersonalDataController::class, 'update'])->name('personal-data.update');
     Route::delete('/personal-data-delete/{id}', [PersonalDataController::class, 'destroy'])->name('personal-data.destroy');
     Route::get('/personal-data-toggle-status/{id}', [PersonalDataController::class, 'toggleStatus'])->name('personal-data.toggle-status');
     Route::get('/personal-data-view/{id}', [PersonalDataController::class, 'view'])->name('personal-data.view');

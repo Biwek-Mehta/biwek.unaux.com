@@ -40,7 +40,7 @@
                            alt="people" 
                            style="height: 100%; width: 100%; object-fit: cover;">
                   @endif
-                 
+                  <!-- @dd(auth('admin')->user()->profile_picture); -->
 
                   <div class="weather-info">
                       <div class="d-flex">
